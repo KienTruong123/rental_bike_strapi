@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bikes",
+  "info": {
+    "singularName": "bike",
+    "pluralName": "bikes",
+    "displayName": "Bikes"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "richtext",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "new,",
+        "bestSeller,",
+        "topRated"
+      ]
+    }
+  }
+}
