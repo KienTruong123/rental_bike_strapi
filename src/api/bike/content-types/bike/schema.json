@@ -4,7 +4,8 @@
   "info": {
     "singularName": "bike",
     "pluralName": "bikes",
-    "displayName": "Bikes"
+    "displayName": "Bikes",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,9 +15,10 @@
     "name": {
       "type": "string"
     },
-    "title": {
+    "briefDescription": {
       "type": "richtext",
-      "required": true
+      "required": true,
+      "minLength": 10
     },
     "description": {
       "type": "richtext"
@@ -26,14 +28,15 @@
       "required": true
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "category": {
       "type": "enumeration",
