@@ -41,8 +41,8 @@
     "category": {
       "type": "enumeration",
       "enum": [
-        "new,",
-        "bestSeller,",
+        "new",
+        "bestSeller",
         "topRated"
       ]
     }

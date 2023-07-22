@@ -1,39 +1,50 @@
-import { useState } from "react";
-import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
-import "../App.css";
-import { Button } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import { useTranslation } from "react-i18next";
+import { styled } from "@mui/material/styles";
+import { TablePagination, TextField } from "@mui/material";
+import { LangguageToggle } from "./ToggleMode";
 
-const Home = () => {
-  const [count, setCount] = useState(0);
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  height: 60,
+  lineHeight: "60px",
+  minWidth: 300,
+}));
 
+export const Home = () => {
+
+  const { t, i18n } = useTranslation();
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button
-          variant="contained"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <h1>{t('Welcome to React')}</h1>
+      <TextField  label="Locale" fullWidth />
+      <LangguageToggle/>
+      <TablePagination
+          count={2000}
+          rowsPerPage={10}
+          page={1}
+          component="div"
+          onPageChange={() => {}}
+        />
+      <Grid spacing={2}>
+        {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
+          <Item
+            key={elevation}
+            elevation={elevation}
+            sx={{
+              p: 2,
+              display: "grid",
+              gridTemplateColumns: { md: "1fr" },
+              gap: 2,
+            }}
+          >
+            {`elevation=${elevation}`}
+          </Item>
+        ))}
+      </Grid>
     </div>
   );
 };
-
-export default Home;
