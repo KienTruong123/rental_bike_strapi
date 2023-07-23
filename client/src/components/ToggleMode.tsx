@@ -54,29 +54,23 @@ const ToggleMode: FC<{
   onClick: MouseEventHandler<HTMLButtonElement>;
 }> = ({ onUrl, offUrl, onClick }) => {
   return (
-    <IconButton
-      sx={{ ml: 1 }}
-      style={{ backgroundColor: "transparent" }}
+    <MaterialUISwitch
       onClick={onClick}
-      color="inherit"
-    >
-      <MaterialUISwitch
-        sx={{
-          "& .MuiSwitch-switchBase": {
-            "&.Mui-checked": {
-              "& .MuiSwitch-thumb:before": {
-                backgroundImage: onUrl,
-              },
+      sx={{
+        "& .MuiSwitch-switchBase": {
+          "&.Mui-checked": {
+            "& .MuiSwitch-thumb:before": {
+              backgroundImage: onUrl,
             },
           },
-          "& .MuiSwitch-thumb": {
-            "&:before": {
-              backgroundImage: offUrl,
-            },
+        },
+        "& .MuiSwitch-thumb": {
+          "&:before": {
+            backgroundImage: offUrl,
           },
-        }}
-      />
-    </IconButton>
+        },
+      }}
+    />
   );
 };
 
@@ -105,7 +99,7 @@ export const LangguageToggle = () => {
         i18n.changeLanguage(i18n.resolvedLanguage == "vi" ? "en" : "vi");
       }}
     >
-      {i18n.resolvedLanguage == "vi" ? <EnIcon /> : <ViIcon />}
+      {i18n.resolvedLanguage == "en" ? <EnIcon /> : <ViIcon />}
     </IconButton>
   );
 };

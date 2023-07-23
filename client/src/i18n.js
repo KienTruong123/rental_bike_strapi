@@ -9,12 +9,28 @@ export const lngs = [
 const resources = {
   en: {
     translation: {
-      "Welcome to React": "Welcome to React and react-i18next",
+      home: "Home",
+      login: "Login",
+      logout: "Logout",
+      profile: "Profile",
+      homeIntro: "Our featured bikes",
+      all: "All",
+      newArrival: "New arrival",
+      bestSeller: "Best seller",
+      topRated: "Top rated",
     },
   },
   vi: {
     translation: {
-      "Welcome to React": "Bienvenue à React et react-i18next",
+      home: "Trang chủ",
+      login: "Đăng nhập",
+      logout: "Đăng xuất",
+      profile: "Hồ sơ",
+      homeIntro: "Đặt là có ngay!",
+      all: "Tất cả",
+      newArrival: "Mới",
+      bestSeller: "Bán chạy",
+      topRated: "Được đánh giá cao",
     },
   },
 };

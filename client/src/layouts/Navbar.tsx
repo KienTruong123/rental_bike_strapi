@@ -14,15 +14,17 @@ import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import { LangguageToggle, NightModeToggle } from "../components/ToggleMode";
 import { Link, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { refreshAuth } from "../redux/reducers/auth";
 
-const pages = [{ title: "Home", href: "/" }];
-const settings = [
-  { title: "Profile", href: "profile" },
-  { title: "Logout", href: "logout" },
-];
+const pages = [{ title: "home", href: "/" }];
+const settings = [{ title: "profile", href: "profile" }];
 
 const NavigatorBar = () => {
-  const { t, i18n } = useTranslation();
+  const auth = useSelector((state: RootState) => state.auth);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -45,6 +47,10 @@ const NavigatorBar = () => {
     setAnchorElUser(null);
   };
 
+  const logout = () => {
+    dispatch(refreshAuth());
+    handleCloseUserMenu();
+  };
   return (
     <>
       <AppBar sx={{ opacity: 0.9 }}>
@@ -99,7 +105,7 @@ const NavigatorBar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map(({title, href}) => (
+                {pages.map(({ title, href }) => (
                   <MenuItem key={title} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{title}</Typography>
                   </MenuItem>
@@ -130,43 +136,52 @@ const NavigatorBar = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map(({ title, href }) => (
                 <Link key={title} onClick={handleCloseNavMenu} to={href}>
-                  {title}
+                  {t(title)}
                 </Link>
               ))}
             </Box>
             <NightModeToggle />
-            <LangguageToggle/>
-            <Box sx={{ flexGrow: 0, marginLeft: 3 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map(({ title, href }) => (
-                  <MenuItem key={title} onClick={handleCloseUserMenu}>
-                    <Link to={href}>
-                      <Typography textAlign="center">{title}</Typography>
-                    </Link>
+            <LangguageToggle />
+            {auth?.profile ? (
+              <Box sx={{ flexGrow: 0, marginLeft: 3 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map(({ title, href }) => (
+                    <MenuItem key={title} onClick={handleCloseUserMenu}>
+                      <Link to={href}>
+                        <Typography textAlign="center">{t(title)}</Typography>
+                      </Link>
+                    </MenuItem>
+                  ))}
+                  <MenuItem onClick={logout}>
+                    <Typography textAlign="center">{t("logout")}</Typography>
                   </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+                </Menu>
+              </Box>
+            ) : (
+              <Link to={'/login'}>
+                <Typography textAlign="center">{t('login')}</Typography>
+              </Link>
+            )}
           </Toolbar>
         </Container>
       </AppBar>

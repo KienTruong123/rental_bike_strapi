@@ -1,11 +1,12 @@
-import { CssBaseline, ThemeProvider } from "@mui/material"; // Import BrowserRouter and related components
+import { CssBaseline, Snackbar, ThemeProvider } from "@mui/material"; // Import BrowserRouter and related components
 import { Home } from "./components/Home";
 import Profile from "./components/Profile"; // Import the Profile component
 import { useThemeContext } from "./theme/ThemeContextProvider";
 import NavigatorBar from "./layouts/Navbar";
 import SignIn from "./components/Login";
-import {  RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useState } from "react";
+import Notification from "./layouts/Noftification";
 
 let router = createBrowserRouter([
   {
@@ -28,13 +29,13 @@ let router = createBrowserRouter([
   },
 ]);
 
-
 export const App = () => {
   const { theme } = useThemeContext();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Notification/>
       <RouterProvider router={router} fallbackElement={<Fallback />} />
     </ThemeProvider>
   );

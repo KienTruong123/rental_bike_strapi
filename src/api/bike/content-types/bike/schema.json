@@ -45,6 +45,10 @@
         "bestSeller",
         "topRated"
       ]
+    },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
     }
   }
 }

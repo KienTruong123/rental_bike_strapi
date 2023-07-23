@@ -24,3 +24,4 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
 export const useThemeContext = () => {
   return useContext(ThemeContext);
 };
+

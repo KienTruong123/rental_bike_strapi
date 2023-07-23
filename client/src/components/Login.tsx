@@ -10,6 +10,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { TSignInBody, updateProfile } from "../redux/reducers/auth";
+import { ClientApi } from "../lib/client";
+import { get } from "lodash";
+import { useNavigate } from "react-router-dom";
+import { Snackbar } from "@mui/material";
+import { setNotification } from "../redux/reducers/notification";
+import { useTranslation } from "react-i18next";
 
 function Copyright(props: any) {
   return (
@@ -30,13 +39,33 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const login = async (identifier: string, password: string) => {
+    try {
+      const res = await ClientApi.signin().post({
+        identifier: identifier,
+        password: password,
+      });
+
+      if (get(res, "jwt")) {
+        dispatch(updateProfile(res));
+        dispatch(setNotification(t('loginSuccess')));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error, "error login");
+    }
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const identifier = data.get("identifier")?.toString();
+    const password = data.get("password")?.toString();
+    if (identifier && password) login(identifier, password);
   };
 
   return (
@@ -70,7 +99,7 @@ export default function SignIn() {
             fullWidth
             id="email"
             label="Email Address"
-            name="email"
+            name="identifier"
             autoComplete="email"
             autoFocus
           />

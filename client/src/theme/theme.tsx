@@ -20,11 +20,11 @@ export const getDesignTokens = (mode: PaletteMode) => ({
           },
         }
       : {
-          primary: purple,
+          primary: lightGreen,
           divider: purple[700],
           background: {
-            default: purple[900],
-            paper: purple[900],
+            default: grey[900],
+            paper: grey[900],
           },
           text: {
             primary: "#fff",
