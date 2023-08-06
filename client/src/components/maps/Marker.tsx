@@ -3,29 +3,26 @@ import GoogleMap from "./GoogleMap";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import { TItem } from "../../redux/reducers/cart";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 // Marker component
-const Marker: FC<TItem & { lng: any; lat: any }> = ({ attributes }) => {
-  const [show, setShow] = useState(false);
+const Marker: FC<TItem & { lng: any; lat: any; active: boolean }> = ({
+  attributes,
+  active,
+}) => {
   const url = attributes?.image?.data?.attributes?.formats?.medium?.url;
   return (
-    <div
-      onClick={() => {
-        setShow(!show);
-      }}
-    >
-      <DirectionsBikeIcon />
-      {show && (
+    <>
+      <DirectionsBikeIcon
+        color={active ? "success" : "inherit"}
+      />
+      {active && (
         <Card
           sx={{
             position: "relative",
-            bottom: 150,
-            width: 100,
+            bottom: 100,
+            width: 50,
             backgroundColor: "white",
             boxShadow: "0 2px 7px 1px rgba(0, 0, 0, 0.3)",
             zIndex: 100,
@@ -37,14 +34,17 @@ const Marker: FC<TItem & { lng: any; lat: any }> = ({ attributes }) => {
             height="50"
             image={`http://localhost:1337${url}`}
           />
-          <Typography variant="caption" >{attributes?.name}</Typography>
+         {attributes?.name}
         </Card>
       )}
-    </div>
+    </>
   );
 };
 
-const MarkerInfoWindow: FC<{ items?: TItem[] }> = ({ items }) => {
+const MarkerInfoWindow: FC<{ items?: TItem[]; curr?: number }> = ({
+  items,
+  curr,
+}) => {
   return (
     <>
       {items && (
@@ -53,7 +53,15 @@ const MarkerInfoWindow: FC<{ items?: TItem[] }> = ({ items }) => {
             const lat = mk?.attributes?.location?.coordinates?.lat;
             const lng = mk?.attributes?.location?.coordinates?.lng;
             if (lat && lng)
-              return <Marker key={mk?.id} lat={lat} lng={lng} {...mk} />;
+              return (
+                <Marker
+                  key={mk?.id}
+                  lat={lat}
+                  lng={lng}
+                  {...mk}
+                  active={curr == mk?.id}
+                />
+              );
           })}
         </GoogleMap>
       )}

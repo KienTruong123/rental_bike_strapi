@@ -7,6 +7,7 @@ import SignIn from "./components/Login";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useState } from "react";
 import Notification from "./layouts/Noftification";
+import { Footer } from "./layouts/Footer";
 
 let router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ export const App = () => {
       <CssBaseline />
       <Notification/>
       <RouterProvider router={router} fallbackElement={<Fallback />} />
+      <Footer/>
     </ThemeProvider>
   );
 };

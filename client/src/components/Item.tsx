@@ -1,15 +1,24 @@
 import { FC, useState } from "react";
-import { IconButton, Box, Typography, Button } from "@mui/material";
+import {
+  IconButton,
+  Box,
+  Typography,
+  Button,
+  Chip,
+  Paper,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useNavigate } from "react-router-dom";
-import { TItem } from "../redux/reducers/cart";
+import { TItem, addToCart } from "../redux/reducers/cart";
+import { useDispatch } from "react-redux";
 
-const Item: FC<{ item: TItem; width?: number }> = ({ item, width }) => {
-  const navigate = useNavigate();
+const Item: FC<{ item: TItem; width?: number; selected?: boolean }> = ({
+  item,
+  selected,
+}) => {
   const [count, setCount] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
-
+  const dispatch = useDispatch();
   const { category, price, name, image } = item.attributes;
   const {
     data: {
@@ -22,7 +31,7 @@ const Item: FC<{ item: TItem; width?: number }> = ({ item, width }) => {
   } = image;
 
   return (
-    <Box width={width}>
+    <Paper elevation={selected ? 8 : 0}>
       <Box
         position="relative"
         onMouseOver={() => setIsHovered(true)}
@@ -33,9 +42,18 @@ const Item: FC<{ item: TItem; width?: number }> = ({ item, width }) => {
           width="300px"
           height="400px"
           src={`http://localhost:1337${url}`}
-          onClick={() => navigate(`/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />
+        <Box position="absolute" top={0}>
+          <Chip
+            color="primary"
+            size="small"
+            sx={{ borderRadius: 0 }}
+            label={category
+              .replace(/([A-Z])/g, " $1")
+              .replace(/^./, (str) => str.toUpperCase())}
+          />
+        </Box>
         <Box
           display={isHovered ? "block" : "none"}
           position="absolute"
@@ -45,30 +63,39 @@ const Item: FC<{ item: TItem; width?: number }> = ({ item, width }) => {
           padding="0 5%"
         >
           <Box display="flex" justifyContent="space-between">
-            <Box display="flex" alignItems="center" borderRadius="3px">
-              <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
-                <RemoveIcon  />
+            <Box
+              display="flex"
+              alignItems="center"
+              borderRadius="3px"
+              sx={{ color: "#fff" }}
+            >
+              <IconButton
+                color="inherit"
+                onClick={() => setCount(Math.max(count - 1, 1))}
+              >
+                <RemoveIcon />
               </IconButton>
               <Typography color="light">{count}</Typography>
-              <IconButton onClick={() => setCount(count + 1)}>
+              <IconButton color="inherit" onClick={() => setCount(count + 1)}>
                 <AddIcon />
               </IconButton>
             </Box>
-            <Button variant="contained" color="success">Add to Cart</Button>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => dispatch(addToCart({ item: { ...item, count } }))}
+            >
+              Add to Cart
+            </Button>
           </Box>
         </Box>
       </Box>
 
       <Box mt="3px">
-        <Typography variant="caption" >
-          {category
-            .replace(/([A-Z])/g, " $1")
-            .replace(/^./, (str) => str.toUpperCase())}
-        </Typography>
         <Typography>{name}</Typography>
-        <Typography fontWeight="bold">${price}</Typography>
+        <Typography fontWeight="bold">{price?.toLocaleString()} VND</Typography>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

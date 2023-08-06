@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type TItem = {
   id: number;
@@ -29,6 +29,7 @@ export type TItem = {
     };
   };
 };
+
 export interface CartState {
   isCartOpen: boolean;
   cart: any[];
@@ -50,10 +51,17 @@ export const cartSlice = createSlice({
     },
 
     addToCart: (state, action) => {
-      state.cart = [...state.cart, action.payload.item];
+      const foundIndex = state.cart.findIndex(
+        (item) => item.id === action.payload.item.id
+      );
+      if (foundIndex !== -1) {
+        state.cart[foundIndex].count += action.payload.item.count;
+      } else {
+        state.cart = [...state.cart, action.payload.item];
+      }
     },
 
-    removeFromCart: (state, action) => {
+    removeCart: (state, action) => {
       state.cart = state.cart.filter((item) => item.id !== action.payload.id);
     },
 
@@ -69,13 +77,13 @@ export const cartSlice = createSlice({
     decreaseCount: (state, action) => {
       state.cart = state.cart.map((item) => {
         if (item.id === action.payload.id && item.count > 1) {
-          item.count--;
+          item.count = item.count - 1;
         }
         return item;
       });
     },
 
-    setIsCartOpen: (state) => {
+    toggleCartOpen: (state) => {
       state.isCartOpen = !state.isCartOpen;
     },
   },
@@ -84,10 +92,10 @@ export const cartSlice = createSlice({
 export const {
   setItems,
   addToCart,
-  removeFromCart,
+  removeCart,
   increaseCount,
   decreaseCount,
-  setIsCartOpen,
+  toggleCartOpen,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

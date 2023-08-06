@@ -8,16 +8,24 @@ export const signin = () => {
   };
 };
 
-export const bikes = () => {
+export const bikes = (locale = "vi") => {
   return {
     get: async (params?: Record<string, any>) =>
-      await get<any>(`bikes?populate=*`, params),
+      await get<any>(`bikes?populate=*&locale=${locale}`, params),
   };
 };
 
-export const banner = () => {
+export const banner = (locale = "vi") => {
   return {
     get: async (params?: Record<string, any>) =>
-      await get<any>(`banners?populate=*`, params),
+      await get<any>(`banners?populate=*&locale=${locale}`, params),
+  };
+};
+
+export const chats = (token?: string) => {
+  const headers = { Authorization: `Bearer ${token}` } 
+  return {
+    get: async (params?: Record<string, any>) =>
+      await get<any>(`users/me?populate=*`, params, headers),
   };
 };

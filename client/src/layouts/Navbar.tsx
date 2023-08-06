@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { refreshAuth } from "../redux/reducers/auth";
+import CartMenu from "./Cart";
 
 const pages = [{ title: "home", href: "/" }];
 const settings = [{ title: "profile", href: "profile" }];
@@ -54,7 +55,7 @@ const NavigatorBar = () => {
   return (
     <>
       <AppBar sx={{ opacity: 0.9 }}>
-        <Container>
+        <Container maxWidth="xl">
           <Toolbar disableGutters>
             <PedalBikeIcon
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
@@ -142,6 +143,7 @@ const NavigatorBar = () => {
             </Box>
             <NightModeToggle />
             <LangguageToggle />
+            <CartMenu />
             {auth?.profile ? (
               <Box sx={{ flexGrow: 0, marginLeft: 3 }}>
                 <Tooltip title="Open settings">
@@ -178,8 +180,8 @@ const NavigatorBar = () => {
                 </Menu>
               </Box>
             ) : (
-              <Link to={'/login'}>
-                <Typography textAlign="center">{t('login')}</Typography>
+              <Link to={"/login"}>
+                <Typography textAlign="center">{t("login")}</Typography>
               </Link>
             )}
           </Toolbar>

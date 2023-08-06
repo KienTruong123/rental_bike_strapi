@@ -18,6 +18,10 @@ const resources = {
       newArrival: "New arrival",
       bestSeller: "Best seller",
       topRated: "Top rated",
+      modalBag: "Cart bag",
+      emtyBag: "Empty bag",
+      totalPrice: "Total price",
+      days: 'days'
     },
   },
   vi: {
@@ -31,6 +35,10 @@ const resources = {
       newArrival: "Mới",
       bestSeller: "Bán chạy",
       topRated: "Được đánh giá cao",
+      modalBag:"Giỏ hàng",
+      emtyBag: "Giỏ hàng trống",
+      totalPrice: "Tổng giá",
+      days: 'ngày'
     },
   },
 };
